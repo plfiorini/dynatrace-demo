@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: persist
+  namespace: dynatrace-demo
+  labels:
+    app: persist
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: persist
+  template:
+    metadata:
+      labels:
+        app: persist
+    spec:
+      containers:
+        - name: persist
+          image: plfiorini/dynatrace-persist:latest
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/config
+              subPath: config.yaml
+      volumes:
+        - name: config-volume
+          configMap:
+            name: persist-config
+      restartPolicy: Always
