@@ -6,13 +6,11 @@ export class Config {
 
     public tenantUrl: string;
     public apiToken: string;
-    public interval: number;
 
     private constructor(filePath: string) {
         const config = this.loadConfig(filePath);
         this.tenantUrl = config.tenantUrl;
         this.apiToken = config.apiToken;
-        this.interval = config.interval || 10000; // Default to 10 seconds if not specified
     }
 
     public static getInstance(filePath: string): Config {

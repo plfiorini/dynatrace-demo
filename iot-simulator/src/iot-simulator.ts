@@ -9,9 +9,29 @@ import https from "https";
 import { setInterval } from "timers";
 import { Config } from "./core/config";
 import { Metrics } from "./core/metrics";
+import { Command } from "commander";
+
+const program = new Command();
+
+program
+    .version("1.0.0")
+    .description("IoT Simulator that sends metrics to Dynatrace")
+    .option("-c, --config <path>", "Path to the configuration file", "./config/simulator.yaml")
+    .option("-i, --interval <ms>", "Interval in milliseconds for sending metrics", "10000")
+;
+
+program.parse(process.argv);
+
+const options = program.opts();
+const configPath = options.config;
+const interval = parseInt(options.interval, 10);
+
+if (isNaN(interval) || interval <= 0) {
+    throw new Error("Interval must be a positive number.");
+}
 
 // Configuration
-const config = Config.getInstance("./config/simulator.yaml");
+const config = Config.getInstance(configPath);
 if (!config.tenantUrl || !config.apiToken) {
     throw new Error("Tenant URL and/or API token must be defined in the configuration file.");
 }
@@ -69,4 +89,4 @@ function simulateIoT() {
 }
 
 console.info("== IoT Simulator ==");
-setInterval(simulateIoT, config.interval);
+setInterval(simulateIoT, interval);
