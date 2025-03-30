@@ -18,7 +18,11 @@ program
     .description("IoT Simulator that sends metrics to Dynatrace")
     .option("-c, --config <path>", "Path to the configuration file", "./config/simulator.yaml")
     .option("-i, --interval <ms>", "Interval in milliseconds for sending metrics", "10000")
-;
+    .option("-d, --degrade-line <line>", "Degrade the specified line")
+    .option("-s, --stop-line <line>", "Stop the specified line")
+    .on("--help", () => {
+        process.exit(0); // Exit the process after displaying help
+    });
 
 program.parse(process.argv);
 
@@ -40,7 +44,18 @@ if (!config.tenantUrl || !config.apiToken) {
 const lines = ["line1", "line2"];
 
 function generateMetrics(lineId: string) {
-    const pieces = Math.floor(Math.random() * 3); // 0-2 pieces
+    // Case 1: degraded line, send nothing
+    if (options.degradeLine && options.degradeLine === lineId) {
+        console.debug(`⚠️ Line ${lineId} is degraded. No metrics sent.`);
+        return [];
+    }
+
+    // Case 2: stopped line, send 0 pieces, otherwise random
+    const isStopped = (options.stopLine && options.stopLine === lineId);
+    if (isStopped) {
+        console.debug(`🛑 Line ${lineId} is stopped. Sending 0 pieces.`);
+    }
+    const pieces = isStopped ? 0 : Math.floor(Math.random() * 3); // 0-2 pieces
     const scraps = Math.floor(Math.random() * 2); // 0-1 scraps
     const stop = Math.random() < 0.05 ? 1 : 0; // 5% probability of stop
 
@@ -55,6 +70,10 @@ function generateMetrics(lineId: string) {
 }
 
 function sendMetrics(metrics: string[]) {
+    if (metrics.length === 0) {
+        return;
+    }
+
     const data = metrics.join("\n");
 
     const uri = new URL(config.tenantUrl);
@@ -83,10 +102,20 @@ function sendMetrics(metrics: string[]) {
 function simulateIoT() {
     for (const line of lines) {
         const metrics = generateMetrics(line);
-        console.log(`[${line}]`, metrics);
+        if (metrics.length > 0) {
+            console.log(`[${line}]`, metrics);
+        }
         sendMetrics(metrics);
     }
 }
 
-console.info("== IoT Simulator ==");
+console.info(`== IoT Simulator (interval ${interval} ms) ==`);
+
+if (options.degradeLine) {
+    console.info(`⚠️ Degrading line ${options.degradeLine}`);
+}
+if (options.stopLine) {
+    console.info(`🛑 Stopping line ${options.stopLine}`)
+}
+
 setInterval(simulateIoT, interval);
