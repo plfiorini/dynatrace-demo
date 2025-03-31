@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: persist-config
+  namespace: dynatrace-demo
+data:
+  config.yaml: |
+    # Persistence Service Configuration
+    database:
+      host: mongodb
+      port: 27017
+      name: persist-db
+      username: ${DB_USER}
+      password: ${DB_PASSWORD}
+    
+    service:
+      port: 3000
+      logLevel: info
+      
+    storage:
+      type: persistent
+      retentionDays: 30
+      
+    metrics:
+      enabled: true
+      endpoint: /metrics

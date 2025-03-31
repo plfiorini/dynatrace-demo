@@ -18,8 +18,13 @@ spec:
       containers:
         - name: persist
           image: plfiorini/dynatrace-persist:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
+          # volumeMounts:
+          #   - name: secret-volume
+          #     mountPath: /etc/secrets
+          #     readOnly: true
           resources:
             requests:
               memory: "128Mi"
@@ -27,12 +32,8 @@ spec:
             limits:
               memory: "256Mi"
               cpu: "500m"
-          volumeMounts:
-            - name: config-volume
-              mountPath: /app/config
-              subPath: config.yaml
-      volumes:
-        - name: config-volume
-          configMap:
-            name: persist-config
+      # volumes:
+      #   - name: secret-volume
+      #     secret:
+      #       secretName: persist-secret
       restartPolicy: Always
