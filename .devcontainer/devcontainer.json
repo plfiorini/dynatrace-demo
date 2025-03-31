@@ -11,7 +11,9 @@
                 "GitHub.copilot",
                 "GitHub.copilot-chat",
                 "Orta.vscode-jest",
-                "redhat.vscode-yaml"
+                "redhat.vscode-yaml",
+                "ms-azuretools.vscode-docker",
+                "ahmadalli.vscode-nginx-conf"
             ]
         }
     },

@@ -31,11 +31,8 @@ COPY package*.json ./
 # Install only production dependencies
 RUN npm install --omit=dev
 
-# Environment
-ENV NODE_ENV=production
-
 # Expose the application port
 EXPOSE 3000
 
 # Start the application
-CMD ["node", "dist/index.js"]
+CMD ["node", "/app/dist/index.js"]
