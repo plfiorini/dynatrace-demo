@@ -32,7 +32,7 @@ COPY package*.json ./
 RUN npm install --omit=dev
 
 # Expose the application port
-EXPOSE 3000
+EXPOSE 8080
 
 # Start the application
 CMD ["node", "/app/dist/index.js"]

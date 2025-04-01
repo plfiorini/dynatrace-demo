@@ -1,13 +1,13 @@
 export type StateType = {
-    simulateError: boolean;
-    simulateSlow: boolean;
+    simulateError: number;
+    simulateSlow: number;
 };
 
 export class State {
     private static instance: State;
 
-    public simulateError: boolean = false;
-    public simulateSlow: boolean = false;
+    public simulateError: number = 0;
+    public simulateSlow: number = 0;
 
     private constructor() {}
 

@@ -20,6 +20,7 @@ program
     .option("-i, --interval <ms>", "Interval in milliseconds for sending metrics", "10000")
     .option("-d, --degrade-line <line>", "Degrade the specified line")
     .option("-s, --stop-line <line>", "Stop the specified line")
+    .option("--spike <line>", "Simulate a spike of scraps of the specified line")
     .on("--help", () => {
         process.exit(0); // Exit the process after displaying help
     });
@@ -41,7 +42,7 @@ if (!config.tenantUrl || !config.apiToken) {
 }
 
 // Production lines
-const lines = ["line1", "line2"];
+const lines = ["line1", "line2", "line3"];
 
 function generateMetrics(lineId: string) {
     // Case 1: degraded line, send nothing
@@ -55,6 +56,17 @@ function generateMetrics(lineId: string) {
     if (isStopped) {
         console.debug(`🛑 Line ${lineId} is stopped. Sending 0 pieces.`);
     }
+
+    // Case 3: scraps spike
+    if (options.spike && options.spike === lineId) {
+        console.debug(`⚡ Simulating a spike of scraps for line ${lineId}`);
+        const spikeScraps = Math.floor(Math.random() * 10) + 5; // 5-14 scraps
+        return [
+            `${Metrics.SCRAPS},line=${lineId} ${spikeScraps} ${Date.now()}`,
+        ];
+    }
+
+    // Case 4: normal operation
     const pieces = isStopped ? 0 : Math.floor(Math.random() * 3); // 0-2 pieces
     const scraps = Math.floor(Math.random() * 2); // 0-1 scraps
     const stop = Math.random() < 0.05 ? 1 : 0; // 5% probability of stop

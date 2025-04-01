@@ -14,7 +14,7 @@ data:
       password: ${DB_PASSWORD}
     
     service:
-      port: 3000
+      port: 8080
       logLevel: info
       
     storage:

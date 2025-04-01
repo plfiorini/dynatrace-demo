@@ -7,8 +7,8 @@ export default async function stateRoutes(fastify: FastifyInstance) {
             body: {
                 type: "object",
                 properties: {
-                    simulateError: { type: "boolean" },
-                    simulateSlow: { type: "boolean" },
+                    simulateError: { type: "number", minimum: 0, maximum: 100 },
+                    simulateSlow: { type: "number", minimum: 0, maximum: 100 },
                 },
                 required: ["simulateError", "simulateSlow"],
             },
@@ -19,6 +19,10 @@ export default async function stateRoutes(fastify: FastifyInstance) {
         state.simulateError = simulateError;
         state.simulateSlow = simulateSlow;
 
-        reply.status(204).send();
+        return {
+            message: "State updated successfully",
+            simulateError,
+            simulateSlow,
+        };
     });
 }

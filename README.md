@@ -18,12 +18,6 @@ You need:
 * docker
 * docker-compose
 
-Add the following to your `/etc/hosts`:
-
-```sh
-127.0.0.1	backend.acmecorp.com
-```
-
 ### Action!
 
 Build the images with:
@@ -44,10 +38,12 @@ Run the system and build at the same time (takes some time):
 docker-compose up --build
 ```
 
-Test with:
+### Testing
+
+Persist:
 
 ```sh
-curl -k -I https://backend.acmecorp.com/persist/readyz
+curl -k -I http://127.0.0.1:8080/readyz
 ```
 
 ## Kubernetes

@@ -5,14 +5,16 @@ import logger from "../logger";
 export default async function healthRoutes(fastify: FastifyInstance) {
     fastify.get("/healthz", async (_request: FastifyRequest, _reply: FastifyReply) => {
         const state = State.getInstance();
+        const simulateError = state.simulateError > 0 && (Math.random() < state.simulateError / 100);
+        const simulateSlow = state.simulateSlow > 0 && (Math.random() < state.simulateSlow / 100);
 
-        if (state.simulateError) {
-            logger.warn("Simulating an error");
+        if (simulateError) {
+            logger.warn(`Simulating an error (${state.simulateError}%)`);
             throw new Error("Simulated error");
         }
 
-        if (state.simulateSlow) {
-            logger.warn("Simulating slow response");
+        if (simulateSlow) {
+            logger.warn(`Simulating slow response (${state.simulateSlow}%)`);
             await new Promise((resolve) => setTimeout(resolve, 5000));
         }
 
