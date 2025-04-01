@@ -8,6 +8,8 @@ const logger = pino({
             colorize: true,
         },
     } : undefined,
+    // Adding an explicit name to identify this logger instance
+    name: 'persist-service'
 });
 
 export default logger;
