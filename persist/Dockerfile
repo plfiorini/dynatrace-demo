@@ -31,6 +31,9 @@ COPY package*.json ./
 # Install only production dependencies
 RUN npm install --omit=dev
 
+# Environment
+ENV NODE_ENV=production
+
 # Expose the application port
 EXPOSE 3000
 
