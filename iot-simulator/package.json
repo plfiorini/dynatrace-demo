@@ -17,6 +17,9 @@
     "line1": "ts-node-dev --respawn src/iot-simulator.ts -- --interval 250 -s line1",
     "line2": "ts-node-dev --respawn src/iot-simulator.ts -- --interval 250 -d line2",
     "scraps": "ts-node-dev --respawn src/iot-simulator.ts -- --interval 250 --spike line3",
+    "demo1": "ts-node-dev --respawn src/iot-simulator.ts -- --interval 250 -s line1",
+    "demo2": "ts-node-dev --respawn src/iot-simulator.ts -- --interval 250 -s line1 -d line2",
+    "demo3": "ts-node-dev --respawn src/iot-simulator.ts -- --interval 250 -s line1 -d line2 --spike line3",
     "clear-ingestion": "ts-node-dev src/clear-ingestion.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
