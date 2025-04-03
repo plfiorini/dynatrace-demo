@@ -67,7 +67,7 @@ function generateMetrics(lineId: string) {
     }
 
     // Case 4: normal operation
-    const pieces = isStopped ? 0 : Math.floor(Math.random() * 3); // 0-2 pieces
+    const pieces = isStopped ? 0 : Math.floor(Math.random() * 4); // 0-3 pieces
     const scraps = Math.floor(Math.random() * 2); // 0-1 scraps
     const stop = Math.random() < 0.05 ? 1 : 0; // 5% probability of stop
 

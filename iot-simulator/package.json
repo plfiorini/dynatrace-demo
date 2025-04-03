@@ -13,7 +13,7 @@
   "main": "src/iot-simulator.ts",
   "scripts": {
     "simulator": "ts-node-dev --respawn src/iot-simulator.ts -- --interval 100",
-    "demo": "ts-node-dev --respawn src/iot-simulator.ts -- --interval 250 -d line2 -s line1",
+    "demo": "ts-node-dev --respawn src/iot-simulator.ts -- --interval 250 -d line2 -s line1 --spike line3",
     "line1": "ts-node-dev --respawn src/iot-simulator.ts -- --interval 250 -s line1",
     "line2": "ts-node-dev --respawn src/iot-simulator.ts -- --interval 250 -d line2",
     "scraps": "ts-node-dev --respawn src/iot-simulator.ts -- --interval 250 --spike line3",

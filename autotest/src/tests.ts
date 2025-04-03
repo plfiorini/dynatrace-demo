@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 import HttpClient from './httpClient';
 
-export async function runTests(server: string): Promise<void> {
+export async function runAllTests(server: string): Promise<void> {
     const apiClient = new HttpClient(server);
 
     // Constantly check the health of the server
@@ -43,6 +43,17 @@ export async function runTests(server: string): Promise<void> {
                 }
             });
     }, 5000);
+}
+
+export async function runHealthTest(server: string): Promise<void> {
+    const apiClient = new HttpClient(server);
+
+    // Constantly check the health of the server
+    setInterval(() => {
+        testHealthCheck(apiClient)
+            .then(() => console.log('Health check passed'))
+            .catch((error) => console.error('Health check failed:', error));
+    }, 2000);
 }
 
 async function testHealthCheck(apiClient: HttpClient): Promise<void> {

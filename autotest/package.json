@@ -5,6 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "ts-node-dev --respawn --transpile-only src/index.ts -- --server=http://localhost:8080",
+    "all": "ts-node-dev --respawn --transpile-only src/index.ts -- --server=http://localhost:8080 --case=all",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Pier Luigi Fiorini",
